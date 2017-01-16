@@ -11,7 +11,13 @@ var http = require('http');
 
 var app = express();
 app.use(bodyParser.json());
-const config = require("./config.json");
+//const config = require("./config.json");
+
+var config = {
+  "webhookUrl": process.env.WEBHOOKURL,
+  "token": process.env.BOTTOKEN,
+  "port": process.env.PORT
+}
 
 // init flint
 var flint = new Flint(config);
@@ -466,7 +472,7 @@ flint.hears('/sn-opentickets', function(bot, trigger) {
        var jsonbody = JSON.parse(body);
        var sndata = jsonbody.result;
        console.log(sndata);
-		
+
 	   if(typeof sndata !== 'undefined' && sndata.length > 0)
 	   {
 		   var snNmber = "";
@@ -488,13 +494,13 @@ flint.hears('/sn-opentickets', function(bot, trigger) {
 			   outputString += `[${snNmber}](${ticketLink}) - ${snDescription}  \n`;
 		   }
 		   bot.say("markdown", outputString);
-		   
+
 	   }
 	   else{
 		   bot.say("There are no tickets to list.");
-	   }      
-	   
-	   
+	   }
+
+
      }); //end incident request call
 
   }); //user request call
@@ -600,19 +606,19 @@ var server = app.listen(config.port, function () {
 process.on('SIGINT', function() {
   flint.debug('stopping...');
   server.close();
-  
+
   flint.stop().then(function() {
     process.exit();
   });
-  
+
 });
 
 
 /*
 http.createServer(function (req, res) {
-    
+
     res.writeHead(200, { 'Content-Type': 'text/html' });
     res.end('Hello, world!');
-    
+
 }).listen(process.env.PORT || 8080);
 */
