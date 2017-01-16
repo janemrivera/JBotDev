@@ -1,10 +1,25 @@
 {
-  "name": "application-name",
-  "version": "2.0.0",
+  "name": "JBotDev",
+  "version": "1.0.0",
+  "description": "Jane Spark Bot Dev",
   "private": true,
+  "main": "./server.js",
   "scripts": {
     "start": "node server"
   },  
+"repository": {
+    "type": "git",
+    "url": "git+https://github.com/janemrivera/JBotDev.git"
+  },  
+"keywords": [
+    "Cisco",
+    "Spark"
+  ],  
+"dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "node-flint": "^4.2.1"
+  }, 
 "license": "Apache",
 "engines": {
     "node": "~0.10.0 || ~4.2.0"
