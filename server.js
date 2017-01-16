@@ -126,7 +126,7 @@ flint.hears('/whoami', function(bot, trigger) {
   var roomTitle = "**" + trigger.roomTitle + "**";
   var personEmail = trigger.personEmail;
   var personDisplayName = trigger.personDisplayName;
-  var outputString = `${personDisplayName} here is some of your information: \n\n\n **Room:** you are in &ldquo;${roomTitle}&rdquo; \n\n\n **Room id:** ${roomId} \n\n\n **Email:** your email on file is *${personEmail}*`;
+  var outputString = "${personDisplayName} here is some of your information: \n\n\n **Room:** you are in &ldquo;${roomTitle}&rdquo; \n\n\n **Room id:** ${roomId} \n\n\n **Email:** your email on file is *${personEmail}*";
   bot.say("markdown", outputString);
 });
 
