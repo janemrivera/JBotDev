@@ -95,14 +95,14 @@ ex User enters @botname /hello, the bot will write back
 */
 flint.hears('/help', function(bot, trigger) {
   console.log("/help fired");
-  let outputString = "I can give you quick access to the available commands:\n- /about\n- /help\n- /hi\n- /hello \n- /room: reveals this room identifier\n- /whoami: shows your spark info\n- /whois @mention: learn about other participants\n"
+  var outputString = "I can give you quick access to the available commands:\n- /about\n- /help\n- /hi\n- /hello \n- /room: reveals this room identifier\n- /whoami: shows your spark info\n- /whois @mention: learn about other participants\n"
    bot.say("markdown", outputString);
 });
 
 
 flint.hears('/about', function(bot, trigger) {
   console.log("/about fired");
-  let outputString = "```\n{\n  'author':'Jane Rivera &lt;jmrivera@nalco.com&gt;',\n  'code':'helloworld.js on local',\n  'description':'a test bot for checking out the Spark APIs',\n  'healthcheck':'GET https://www.test.com',\n  'webhook':'POST https://www.test.com'\n}\n```"
+  var outputString = "```\n{\n  'author':'Jane Rivera &lt;jmrivera@nalco.com&gt;',\n  'code':'helloworld.js on local',\n  'description':'a test bot for checking out the Spark APIs',\n  'healthcheck':'GET https://www.test.com',\n  'webhook':'POST https://www.test.com'\n}\n```"
    bot.say("markdown", outputString);
 });
 
@@ -122,11 +122,11 @@ ex "@botname /whoami"
 flint.hears('/whoami', function(bot, trigger) {
   console.log("/whoami fired");
   //the "trigger" parameter gives you access to data about the user who entered the command
-  let roomId = "*" + trigger.roomId + "*";
-  let roomTitle = "**" + trigger.roomTitle + "**";
-  let personEmail = trigger.personEmail;
-  let personDisplayName = trigger.personDisplayName;
-  let outputString = `${personDisplayName} here is some of your information: \n\n\n **Room:** you are in &ldquo;${roomTitle}&rdquo; \n\n\n **Room id:** ${roomId} \n\n\n **Email:** your email on file is *${personEmail}*`;
+  var roomId = "*" + trigger.roomId + "*";
+  var roomTitle = "**" + trigger.roomTitle + "**";
+  var personEmail = trigger.personEmail;
+  var personDisplayName = trigger.personDisplayName;
+  var outputString = `${personDisplayName} here is some of your information: \n\n\n **Room:** you are in &ldquo;${roomTitle}&rdquo; \n\n\n **Room id:** ${roomId} \n\n\n **Email:** your email on file is *${personEmail}*`;
   bot.say("markdown", outputString);
 });
 
@@ -135,8 +135,8 @@ ex User enters @botname /echo phrase, the bot will take the arguments and echo t
 */
 flint.hears('/echo', function(bot, trigger) {
   console.log("/echo fired");
-  let phrase = trigger.args.slice(1).join(" ");
-  let outputString = `Ok, I'll say it: "${phrase}"`;
+  var phrase = trigger.args.slice(1).join(" ");
+  var outputString = `Ok, I'll say it: "${phrase}"`;
   bot.say(outputString);
 });
 
@@ -154,7 +154,7 @@ flint.hears('/batcave', function(bot, trigger) {
 
 flint.hears('/batsignal', function(bot, trigger) {
   console.log("/batsignal fired");
-  let outputString = "NANA NANA NANA NANA";
+  var outputString = "NANA NANA NANA NANA";
   //bot.say(outputString);
   bot.say({text: outputString, file: 'https://upload.wikimedia.org/wikipedia/en/c/c6/Bat-signal_1989_film.jpg'});
 
@@ -176,7 +176,7 @@ flint.hears('/weather', function(bot, trigger) {
   // /(^| )weather( |.|$)/i
   //bot.say('Enjoy a beer, %s! 🍻', trigger.personDisplayName);
 
-  let city = trigger.args.slice(1).join(" ");
+  var city = trigger.args.slice(1).join(" ");
   //let cityEncoded = encodeURI(city);
   //let citynojoin = trigger.args.slice(1);
   //let text2 = trigger.args.slice(2);
@@ -234,7 +234,7 @@ flint.hears('/weather', function(bot, trigger) {
                         break;
               }
 
-  				    let outputString = `It's ${weathermain} in ${city}. \n \n Temperature: ${temp}F \n \n ${wcomment}`;
+  				    var outputString = `It's ${weathermain} in ${city}. \n \n Temperature: ${temp}F \n \n ${wcomment}`;
   				    //bot.say("markdown", outputString);
               bot.say({text: outputString, file: icon});
 
@@ -320,7 +320,7 @@ flint.hears('/meme', function(bot, trigger) {
 
 flint.hears('/memehelp', function(bot, trigger) {
   console.log("/memehelp fired");
-  let outputString = 'Usage: **/meme memetype &ldquo;top text&rdquo; &ldquo;bottom text&rdquo;** \n\n Currently available memes:\n';
+  var outputString = 'Usage: **/meme memetype &ldquo;top text&rdquo; &ldquo;bottom text&rdquo;** \n\n Currently available memes:\n';
   for (var m in meme){
       outputString += "\t\t" + m + " " + meme[m].desc + "\n"
   }
@@ -514,19 +514,19 @@ flint.hears('/sn-opentickets', function(bot, trigger) {
 
 flint.hears('/room', function(bot, trigger) {
   console.log("/room fired");
-  let roomId = "*" + trigger.roomId + "*";
-  let roomTitle = "**" + trigger.roomTitle + "**";
-  let outputString = `The roomId for room ${roomTitle} is ${roomId}`;
+  var roomId = "*" + trigger.roomId + "*";
+  var roomTitle = "**" + trigger.roomTitle + "**";
+  var outputString = `The roomId for room ${roomTitle} is ${roomId}`;
   bot.say(outputString);
 });
 
 //// @botname /createroom <room name>
 flint.hears('/createroom', function(bot, trigger) {
   console.log("/createroom fired");
-  let roomName = trigger.args.slice(1).join(" ");
+  var roomName = trigger.args.slice(1).join(" ");
 
   //TODO:  how to parse the different emails from the room name
-  let emails = trigger.personEmail;
+  var emails = trigger.personEmail;
   bot.newRoom(roomName, emails);
 
   //bot.say(bot.personId);
@@ -536,15 +536,15 @@ flint.hears('/createroom', function(bot, trigger) {
 //does not work yet
 flint.hears('/dm', function(bot, trigger) {
   console.log("/dm fired");
-  let dmemail = trigger.args.slice(1).join(" ");
+  var dmemail = trigger.args.slice(1).join(" ");
   bot.dm(dmemail, 'dm test: hello world');
 });
 
 // @botname /rename <room name>
 flint.hears('/renameroom', function(bot, trigger) {
-  let oldroomname = trigger.roomTitle;
+  var oldroomname = trigger.roomTitle;
   console.log("/renameroom fired");
-  let roomName = trigger.args.slice(1).join(" ");
+  var roomName = trigger.args.slice(1).join(" ");
 
   bot.roomRename(roomName)
   .then(function(err) {
@@ -556,7 +556,7 @@ flint.hears('/renameroom', function(bot, trigger) {
       bot.say("Cannot rename a 1:1 or Team room.")
     }
     else{
-      let outputString = `This room has been renamed from ${oldroomname} to ${roomName}`
+      var outputString = `This room has been renamed from ${oldroomname} to ${roomName}`
       bot.say(outputString);
     }
   }
