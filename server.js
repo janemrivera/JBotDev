@@ -10,8 +10,28 @@ var Imgflipper = require('imgflipper');
 var http = require('http');
 
 var app = express();
+// Setup the View Engine
+//app.set("view engine", "jade");
+//app.engine("ejs", ejsEngine); // support master pages
+//app.set("view engine", "ejs"); // ejs view engine
+//app.set("view engine", "vash");
+
+// Opt into Services
+//app.use(express.urlencoded());
+//app.use(express.cookieParser());
+//app.use(express.session({ secret: "PluralsightTheBoard" }));
+//app.use(flash());
+
+// set the public static resource folder
+app.use(express.static(__dirname + "/public"));
+
 app.use(bodyParser.json());
 //const config = require("./config.json");
+
+app.get("/api/users", function (req, res) {
+  res.set("Content-Type", "application/json");
+  res.send({ name: "Jane", isValid: true, group: "Admin" });
+});
 
 var config = {
   "webhookUrl": process.env.WEBHOOKURL,
@@ -28,120 +48,10 @@ flint.on("initialized", function() {
   console.log("Flint initialized successfully! [Press CTRL-C to quit]");
 });
 
-
-/****
-##  add flint event listeners
-****/
-flint.on('message', function(bot, trigger, id) {
-  flint.debug('"%s" said "%s" in room "%s"', trigger.personEmail, trigger.text, trigger.roomTitle);
-});
-
-//Welcome message when a new room or 1:1 is spawned with the bot
-flint.on('spawn', function(bot) {
-  //flint.debug('new bot spawned in room: %s', bot.room.title);
-  console.log('new bot spawned in room: %s', bot.room.title);
-  //presents different messages based on room or 1:1
-  //console.log(bot.membership);
-  if(bot.isGroup){
-     //bot.say("Hi! To get started just type @Ferb /hello. \n\n\n **Note that this is a 'Group' room. I will wake up only when mentioned.**");
-  }else{
-    //bot.say("Hi! To get started just type hello.");
-  };
-  //bot.repeat;
-});
-
-//does not work the first call; triggers when i readd the bot to the same room
-flint.on("personEnters", function(bot, person, id) {
-	flint.debug('personEnters event in room: "%s"', bot.room.title);
-
-  //presents different messages based on room or 1:1
-  if(bot.isGroup){
-     bot.say("Hi! To get started just type @Ferb /hello. \n\n\n **Note that this is a 'Group' room. I will wake up only when mentioned.**");
-  }else{
-    bot.say("Hi! To get started just type hello.");
-  };
-  bot.repeat;
-});
-
-flint.on("membershipCreated", function(membership, id) {
-
-	flint.debug('membershipCreated event in room: "%s" for "%s"', membership.roomId, membership.personEmail);
-
-});
-
-flint.on("membershipDeleted", function(membership, id) {
-
-	flint.debug('membershipCreated event in room: "%s" for "%s"', membership.roomId, membership.personEmail);
-
-});
-
-flint.on('personExits', function(bot) {
-	flint.debug('bot left room: "%s"', bot.room.title);
-});
-
-
-flint.on('despawn', function(bot) {
-	flint.debug('bot despawned in room: "%s"', bot.room.title);
-});
-
-
-
-/****************************************
-## Process incoming messages
-****************************************/
-
-/* On mention with command
-ex User enters @botname /hello, the bot will write back
-*/
-flint.hears('/help', function(bot, trigger) {
-  console.log("/help fired");
-  var outputString = "I can give you quick access to the available commands:\n- /about\n- /help\n- /hi\n- /hello \n- /room: reveals this room identifier\n- /whoami: shows your spark info\n- /whois @mention: learn about other participants\n"
-   bot.say("markdown", outputString);
-});
-
-
-flint.hears('/about', function(bot, trigger) {
-  console.log("/about fired");
-  var outputString = "```\n{\n  'author':'Jane Rivera &lt;jmrivera@nalco.com&gt;',\n  'code':'helloworld.js on local',\n  'description':'a test bot for checking out the Spark APIs',\n  'healthcheck':'GET https://www.test.com',\n  'webhook':'POST https://www.test.com'\n}\n```"
-   bot.say("markdown", outputString);
-});
-
 flint.hears('/hello', function(bot, trigger) {
   console.log("/hello fired");
   bot.say('%s, you said hello to me!', trigger.personDisplayName);
 });
-
-flint.hears('/hi', function(bot, trigger) {
-  console.log("/hi fired");
-  bot.say('Hi %s! How are you today?', trigger.personDisplayName);
-});
-
-/*
-ex "@botname /whoami"
-*/
-flint.hears('/whoami', function(bot, trigger) {
-  console.log("/whoami fired");
-  //the "trigger" parameter gives you access to data about the user who entered the command
-  var roomId = "*" + trigger.roomId + "*";
-  var roomTitle = "**" + trigger.roomTitle + "**";
-  var personEmail = trigger.personEmail;
-  var personDisplayName = trigger.personDisplayName;
-  var outputString = "${personDisplayName} here is some of your information: \n\n\n **Room:** you are in &ldquo;${roomTitle}&rdquo; \n\n\n **Room id:** ${roomId} \n\n\n **Email:** your email on file is *${personEmail}*";
-  bot.say("markdown", outputString);
-});
-
-
-/****************************************
-## Handler for unknown commands
-****************************************/
-// default message for unrecognized commands
-flint.hears(/.*/, function(bot, trigger) {
-  console.log("Unknown command fired.");
-  bot.say('You see a shimmering light, but it is growing dim...');
-}, 20);
-
-
-
 
 
 /****
