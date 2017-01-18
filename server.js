@@ -28,11 +28,6 @@ app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.json());
 //const config = require("./config.json");
 
-app.get("/api/users", function (req, res) {
-  res.set("Content-Type", "application/json");
-  res.send({ name: "Jane", isValid: true, group: "Admin" });
-});
-
 var config = {
   "webhookUrl": process.env.WEBHOOKURL,
   "token": process.env.BOTTOKEN,
@@ -57,6 +52,18 @@ flint.hears('/hello', function(bot, trigger) {
 /****
 ## Server config & housekeeping
 ****/
+app.get('/', function(req, res){
+    res.send('Hello World');
+});
+
+app.get('/health', function(req, res){
+    res.send('OK');
+});
+
+app.get("/api/users", function (req, res) {
+  res.set("Content-Type", "application/json");
+  res.send({ name: "Jane", isValid: true, group: "Admin" });
+});
 
 // define express path for incoming webhooks
 app.post('/', webhook(flint));
