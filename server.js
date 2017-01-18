@@ -52,21 +52,21 @@ app.get("/api/users", function (req, res) {
 });
 
 // define express path for incoming webhooks
-app.post('/', webhook(flint));
+//app.post('/', webhook(flint));
 
 // start express server
-var server = app.listen(config.port, function () {
-  flint.debug('Flint listening on port %s', config.port);
+var server = app.listen(8080, function () {
+  console.log('Flint listening on port %s', "8080");
 });
 
 // gracefully shutdown (ctrl-c)
 process.on('SIGINT', function() {
-  flint.debug('stopping...');
+  //flint.debug('stopping...');
   server.close();
 
-  flint.stop().then(function() {
-    process.exit();
-  });
+  //flint.stop().then(function() {
+  //  process.exit();
+  //});
 
 });
 
